@@ -1,6 +1,5 @@
 .vscode/
 *.xlsx
-*.sql
 file/
 build/
 dist/
