@@ -21,14 +21,13 @@ public class PiutangDao extends DataAccessObject {
     public void create(Model m) {
         Piutang model = (Piutang) m;
         try {
-            String sql = "INSERT INTO piutang(id_peminjaman, tanggal_bayar, jumlah_piutang, jumlah_bayar, saldo_piutang, keterangan) VALUES(?,?,?,?,?,?)";
+            String sql = "INSERT INTO piutang(id_peminjaman, tanggal_bayar, jumlah_bayar, saldo_piutang, keterangan) VALUES(?,?,?,?,?)";
             ps = con.prepareStatement(sql);
             ps.setInt(1, model.getIdPeminjaman());
             ps.setString(2, model.getTanggalBayar());
-            ps.setInt(3, model.getJumlahPiutang());
-            ps.setInt(4, model.getJumlahBayar());
-            ps.setInt(5, model.getSaldoPiutang());
-            ps.setString(6, model.getKeterangan());
+            ps.setInt(3, model.getJumlahBayar());
+            ps.setInt(4, model.getSaldoPiutang());
+            ps.setString(5, model.getKeterangan());
             ps.execute();
             JOptionPane.showMessageDialog(null, "Data disimpan");
         } catch (SQLException e) {
@@ -42,8 +41,7 @@ public class PiutangDao extends DataAccessObject {
         Piutang model = (Piutang) m;
         String sql = "UPDATE piutang SET id_peminjaman=" + model.getIdPeminjaman()
                 + ", tanggal_bayar='" + model.getTanggalBayar()
-                + "', jumlah_piutang=" + model.getJumlahPiutang()
-                + ", jumlah_bayar=" + model.getJumlahBayar()
+                + "', jumlah_bayar=" + model.getJumlahBayar()
                 + ", saldo_piutang=" + model.getSaldoPiutang()
                 + ", keterangan='" + model.getKeterangan()
                 + "' WHERE id_piutang=" + model.getIdPiutang();
@@ -70,6 +68,61 @@ public class PiutangDao extends DataAccessObject {
         }
     }
 
+    public boolean getKeterangan(int id){
+        String keterangan = "";
+        
+        String query = "SELECT "
+                + "piu.saldo_piutang, "
+                + "piu.keterangan "
+                + "FROM "
+                + "piutang piu "
+                + "INNER JOIN peminjaman p ON p.id_peminjaman = piu.id_peminjaman "
+                + "INNER JOIN customer c ON c.id_customer = p.id_customer "
+                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang "
+                + "WHERE p.id_peminjaman = " + id + " "
+                + "ORDER BY piu.id_piutang DESC "
+                + "LIMIT 1";
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                keterangan = rs.getString("keterangan");
+            }
+        } catch (SQLException e) {
+            System.out.println("#ERROR " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "#Error " + e.getMessage());
+        }
+        
+        boolean status = (keterangan.equalsIgnoreCase("LUNAS")) ? true : false;
+        return status;
+    }
+    
+    public int getSaldoTerakhir(int id) {
+        int saldoTerakhir = 0;
+        String query = "SELECT "
+                + "piu.saldo_piutang, "
+                + "piu.keterangan "
+                + "FROM "
+                + "piutang piu "
+                + "INNER JOIN peminjaman p ON p.id_peminjaman = piu.id_peminjaman "
+                + "INNER JOIN customer c ON c.id_customer = p.id_customer "
+                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang "
+                + "WHERE p.id_peminjaman = " + id + " "
+                + "ORDER BY piu.id_piutang DESC "
+                + "LIMIT 1";
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                saldoTerakhir = rs.getInt("saldo_piutang");
+            }
+        } catch (SQLException e) {
+            System.out.println("#ERROR " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "#Error " + e.getMessage());
+        }
+        return saldoTerakhir;
+    }
+
     @Override
     public void delete(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -86,7 +139,6 @@ public class PiutangDao extends DataAccessObject {
                 model.setIdPiutang(rs.getInt("id_piutang"));
                 model.setIdPeminjaman(rs.getInt("id_peminjaman"));
                 model.setTanggalBayar(rs.getString("tanggal_bayar"));
-                model.setJumlahPiutang(rs.getInt("jumlah_piutang"));
                 model.setJumlahBayar(rs.getInt("jumlah_bayar"));
                 model.setSaldoPiutang(rs.getInt("jumlah_bayar"));
                 model.setKeterangan(rs.getString("keterangan"));
@@ -125,5 +177,4 @@ public class PiutangDao extends DataAccessObject {
     public DefaultTableModel viewAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

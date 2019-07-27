@@ -30,6 +30,7 @@ public class PeminjamanController extends Controller {
         String tanggalPinjam = (String) obj[3];
         String tanggalKembali = (String) obj[4];
         String lokasi = (String) obj[5];
+        int harga = (int) obj[6];
 
         Model m = new Peminjaman();
         Peminjaman model = (Peminjaman) m;
@@ -40,6 +41,7 @@ public class PeminjamanController extends Controller {
         model.setTanggalPinjam(tanggalPinjam);
         model.setTanggalKembali(tanggalKembali);
         model.setLokasi(lokasi);
+        model.setHarga(harga);
 
         dao.create(model);
     }
@@ -53,6 +55,7 @@ public class PeminjamanController extends Controller {
         String tanggalPinjam = (String) obj[4];
         String tanggalKembali = (String) obj[5];
         String lokasi = (String) obj[6];
+        int harga = (int) obj[7];
 
         Model m = new Peminjaman();
         Peminjaman model = (Peminjaman) m;
@@ -64,6 +67,7 @@ public class PeminjamanController extends Controller {
         model.setTanggalPinjam(tanggalPinjam);
         model.setTanggalKembali(tanggalKembali);
         model.setLokasi(lokasi);
+        model.setHarga(harga);
 
         dao.update(model);
     }
@@ -97,12 +101,16 @@ public class PeminjamanController extends Controller {
     public DefaultTableModel viewAll() {
         return dao.viewAll();
     }
-
-    public DefaultTableModel viewByName(String name){
-        return dao.viewByName(name);
-    }
     
-    public DefaultTableModel viewAllDetail(int idCustomer){
+    public DefaultTableModel viewAllUmum() {
+        return dao.viewAllUmum();
+    }
+
+    public DefaultTableModel viewByNameUmum(String name) {
+        return dao.viewByNameUmum(name);
+    }
+
+    public DefaultTableModel viewAllDetail(int idCustomer) {
         return dao.viewAllDetail(idCustomer);
     }
 }

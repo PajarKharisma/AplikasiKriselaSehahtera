@@ -10,12 +10,13 @@ public class Peminjaman extends Model{
     private String tanggalPinjam;
     private String tanggalKembali;
     private String lokasi;
+    private int harga;
 
     public Peminjaman() {
         super("Peminjaman");
     }
 
-    public Peminjaman(int idPeminjaman, int idCustomer, int idBarang, String berat, String tanggalPinjam, String tanggalKembali, String lokasi) {
+    public Peminjaman(int idPeminjaman, int idCustomer, int idBarang, String berat, String tanggalPinjam, String tanggalKembali, String lokasi, int harga) {
         this.idPeminjaman = idPeminjaman;
         this.idCustomer = idCustomer;
         this.idBarang = idBarang;
@@ -23,6 +24,7 @@ public class Peminjaman extends Model{
         this.tanggalPinjam = tanggalPinjam;
         this.tanggalKembali = tanggalKembali;
         this.lokasi = lokasi;
+        this.harga = harga;
     }
 
     public int getIdPeminjaman() {
@@ -79,5 +81,13 @@ public class Peminjaman extends Model{
 
     public void setLokasi(String lokasi) {
         this.lokasi = lokasi;
+    }
+
+    public int getHarga() {
+        return harga;
+    }
+
+    public void setHarga(int harga) {
+        this.harga = harga;
     }
 }

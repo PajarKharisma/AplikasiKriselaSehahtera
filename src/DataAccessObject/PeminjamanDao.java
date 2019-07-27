@@ -21,7 +21,7 @@ public class PeminjamanDao extends DataAccessObject {
     public void create(Model m) {
         Peminjaman model = (Peminjaman) m;
         try {
-            String sql = "INSERT INTO peminjaman(id_customer, id_barang, berat, tanggal_pinjam, tanggal_kembali, lokasi) VALUES(?,?,?,?,?,?)";
+            String sql = "INSERT INTO peminjaman(id_customer, id_barang, berat, tanggal_pinjam, tanggal_kembali, lokasi, harga) VALUES(?,?,?,?,?,?,?)";
             ps = con.prepareStatement(sql);
             ps.setInt(1, model.getIdCustomer());
             ps.setInt(2, model.getIdBarang());
@@ -29,6 +29,7 @@ public class PeminjamanDao extends DataAccessObject {
             ps.setString(4, model.getTanggalPinjam());
             ps.setString(5, model.getTanggalKembali());
             ps.setString(6, model.getLokasi());
+            ps.setInt(7, model.getHarga());
             ps.execute();
             JOptionPane.showMessageDialog(null, "Data disimpan");
         } catch (SQLException e) {
@@ -46,7 +47,8 @@ public class PeminjamanDao extends DataAccessObject {
                 + "', tanggal_pinjam='" + model.getTanggalPinjam()
                 + "', tanggal_kembali='" + model.getTanggalKembali()
                 + "', lokasi='" + model.getLokasi()
-                + "' WHERE id_peminjaman=" + model.getIdPeminjaman();
+                + "', harga=" + model.getHarga()
+                + " WHERE id_peminjaman=" + model.getIdPeminjaman();
         try {
             st = con.createStatement();
             st.executeUpdate(sql);
@@ -90,6 +92,7 @@ public class PeminjamanDao extends DataAccessObject {
                 model.setTanggalPinjam(rs.getString("tanggal_pinjam"));
                 model.setTanggalKembali(rs.getString("tanggal_kembali"));
                 model.setLokasi(rs.getString("lokasi"));
+                model.setHarga(rs.getInt("harga"));
                 list.add(model);
             }
         } catch (SQLException e) {
@@ -123,6 +126,66 @@ public class PeminjamanDao extends DataAccessObject {
         mdl.addColumn("Id Peminjaman");
         mdl.addColumn("Id Customer");
         mdl.addColumn("Nama Perusahaan");
+        mdl.addColumn("Id Barang");
+        mdl.addColumn("Nama Barang");
+        mdl.addColumn("Berat");
+        mdl.addColumn("Tanggal Pinjam");
+        mdl.addColumn("Tanggal Kembali");
+        mdl.addColumn("Lokasi");
+        mdl.addColumn("Harga");
+        int no = 1;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                mdl.addRow(new Object[]{
+                    (Object) no,
+                    rs.getInt("id_peminjaman"),
+                    rs.getInt("id_customer"),
+                    rs.getString("nama_perusahaan"),
+                    rs.getInt("id_barang"),
+                    rs.getString("nama_barang"),
+                    rs.getString("berat"),
+                    rs.getString("tanggal_pinjam"),
+                    rs.getString("tanggal_kembali"),
+                    rs.getString("lokasi"),
+                    rs.getInt("harga")
+                });
+                no++;
+            }
+        } catch (SQLException e) {
+            System.out.println("#ERROR " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "#Error " + e.getMessage());
+        }
+        return mdl;
+    }
+    
+    @Override
+    public DefaultTableModel viewAll() {
+        String query = "SELECT"
+                + "p.id_peminjaman,"
+                + "c.id_customer,"
+                + "c.nama_perusahaan"
+                + "j.id_barang,"
+                + "j.nama_barang,"
+                + "p.berat,"
+                + "p.tanggal_pinjam,"
+                + "p.tanggal_kembali,"
+                + "p.lokasi,"
+                + "p.harga"
+                + "FROM"
+                + "peminjaman p"
+                + "INNER JOIN customer c ON c.id_customer = p.id_customer"
+                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang";
+        return viewByParam(query);
+    } 
+
+    private DefaultTableModel viewByParamUmum(String query) {
+        DefaultTableModel mdl = new DefaultTableModel();
+        mdl.addColumn("No");
+        mdl.addColumn("Id Peminjamanan");
+        mdl.addColumn("Id Customer");
+        mdl.addColumn("Nama Perusahaan");
         int no = 1;
         try {
             st = con.createStatement();
@@ -142,35 +205,34 @@ public class PeminjamanDao extends DataAccessObject {
         }
         return mdl;
     }
+    
+    public DefaultTableModel viewAllUmum() {
+        String query = "SELECT "
+                + "p.id_peminjaman, "
+                + "c.id_customer, "
+                + "c.nama_perusahaan "
+                + "FROM "
+                + "peminjaman p "
+                + "INNER JOIN customer c ON c.id_customer = p.id_customer "
+                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang "
+                + "GROUP BY c.id_customer";
+        return viewByParamUmum(query);
+    }
+    
+    public DefaultTableModel viewByNameUmum(String name) {
+        String query = "SELECT "
+                + "p.id_peminjaman, "
+                + "c.id_customer, "
+                + "c.nama_perusahaan "
+                + "FROM "
+                + "peminjaman p "
+                + "INNER JOIN customer c ON c.id_customer = p.id_customer  "
+                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang "
+                + "WHERE c.nama_perusahaan LIKE '%" + name + "%' "
+                + "GROUP BY c.id_customer";
+        return viewByParamUmum(query);
+    }
 
-    @Override
-    public DefaultTableModel viewAll() {
-        String query = "SELECT"
-                        + "p.id_peminjaman,"
-                        + "c.id_customer,"
-                        + "c.nama_perusahaan"
-                        + "FROM"
-                        + "peminjaman p"
-                        + "INNER JOIN customer c ON c.id_customer = p.id_customer"
-                        + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang"
-                        + "GROUP BY c.id_customer";
-        return viewByParam(query);
-    }
-    
-    public DefaultTableModel viewByName(String name) {
-        String query = "SELECT"
-                        + "p.id_peminjaman,"
-                        + "c.id_customer,"
-                        + "c.nama_perusahaan"
-                        + "FROM"
-                        + "peminjaman p"
-                        + "INNER JOIN customer c ON c.id_customer = p.id_customer"
-                        + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang"
-                        + "WHERE c.nama_perusahaan LIKE '%" + name + "%'"
-                        + "GROUP BY c.id_customer";
-        return viewByParam(query);    
-    }
-    
     private DefaultTableModel viewByParamDetail(String query) {
         DefaultTableModel mdl = new DefaultTableModel();
         mdl.addColumn("No");
@@ -181,6 +243,7 @@ public class PeminjamanDao extends DataAccessObject {
         mdl.addColumn("Tanggal Pinjam");
         mdl.addColumn("Tanggal Kembali");
         mdl.addColumn("Lokasi");
+        mdl.addColumn("Harga");
         int no = 1;
         try {
             st = con.createStatement();
@@ -194,7 +257,8 @@ public class PeminjamanDao extends DataAccessObject {
                     rs.getString("berat"),
                     rs.getString("tanggal_pinjam"),
                     rs.getString("tanggal_kembali"),
-                    rs.getString("lokasi")
+                    rs.getString("lokasi"),
+                    rs.getInt("harga")
                 });
                 no++;
             }
@@ -202,26 +266,27 @@ public class PeminjamanDao extends DataAccessObject {
             System.out.println("#ERROR " + e.getMessage());
             JOptionPane.showMessageDialog(null, "#Error " + e.getMessage());
         }
-        return mdl;    
+        return mdl;
     }
-    
+
     public DefaultTableModel viewAllDetail(int idCustomer) {
-        String query = "SELECT"
-                        + "p.id_peminjaman,"
-                        + "j.id_barang,"
-                        + "j.nama_barang,"
-                        + "p.berat,"
-                        + "p.tanggal_pinjam,"
-                        + "p.tanggal_kembali,"
-                        + "p.lokasi"
-                        + "FROM"
-                        + "peminjaman p"
-                        + "INNER JOIN customer c ON c.id_customer = p.id_customer"
-                        + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang"
-                        + "WHERE c.id_customer =" + idCustomer;
+        String query = "SELECT "
+                + "p.id_peminjaman, "
+                + "j.id_barang, "
+                + "j.nama_barang, "
+                + "p.berat, "
+                + "p.tanggal_pinjam, "
+                + "p.tanggal_kembali, "
+                + "p.lokasi, "
+                + "p.harga "
+                + "FROM "
+                + "peminjaman p "
+                + "INNER JOIN customer c ON c.id_customer = p.id_customer "
+                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang "
+                + "WHERE c.id_customer =" + idCustomer;
         return viewByParamDetail(query);
     }
-    
+
     public DefaultTableModel viewByNameDetail() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

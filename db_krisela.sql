@@ -18,6 +18,28 @@ USE `db_krisela`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `coba`
+--
+
+DROP TABLE IF EXISTS `coba`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `coba` (
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `coba`
+--
+
+LOCK TABLES `coba` WRITE;
+/*!40000 ALTER TABLE `coba` DISABLE KEYS */;
+/*!40000 ALTER TABLE `coba` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `customer`
 --
 
@@ -83,6 +105,7 @@ CREATE TABLE `peminjaman` (
   `tanggal_pinjam` date DEFAULT NULL,
   `tanggal_kembali` date DEFAULT NULL,
   `lokasi` varchar(30) DEFAULT NULL,
+  `harga` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_peminjaman`),
   KEY `id_customer` (`id_customer`),
   KEY `id_barang` (`id_barang`),
@@ -97,7 +120,7 @@ CREATE TABLE `peminjaman` (
 
 LOCK TABLES `peminjaman` WRITE;
 /*!40000 ALTER TABLE `peminjaman` DISABLE KEYS */;
-INSERT INTO `peminjaman` VALUES (1,1,1,'Kg','2012-07-02','2012-07-12','Depok'),(2,1,2,'Kg','2012-07-12','2012-07-24','Lampung'),(3,1,3,'Kg','2012-07-01','2012-07-20','Palembang'),(4,1,4,'Kg','2012-08-01','2012-08-20','Yogyakarta'),(5,2,5,'Kg','2012-09-02','2012-09-20','Palangka Raya'),(6,2,6,'Kg','2012-10-15','2012-10-20','Banjarmasin'),(7,2,7,'Kg','2012-11-10','2012-11-27','Jakarta');
+INSERT INTO `peminjaman` VALUES (1,1,1,'Kg','2012-07-02','2012-07-12','Depok',5000000),(2,1,2,'Kg','2012-07-12','2012-07-24','Lampung',7500000),(3,1,3,'Kg','2012-07-01','2012-07-20','Palembang',10000000),(4,1,4,'Kg','2012-08-01','2012-08-20','Yogyakarta',6500000),(5,2,5,'Kg','2012-09-02','2012-09-20','Palangka Raya',8000000),(6,2,6,'Kg','2012-10-15','2012-10-20','Banjarmasin',9600000),(7,2,7,'Kg','2012-11-10','2012-11-27','Jakarta',7600000);
 /*!40000 ALTER TABLE `peminjaman` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,15 +157,14 @@ DROP TABLE IF EXISTS `piutang`;
 CREATE TABLE `piutang` (
   `id_piutang` int(11) NOT NULL AUTO_INCREMENT,
   `id_peminjaman` int(11) DEFAULT NULL,
-  `tangal_bayar` date DEFAULT NULL,
-  `jumlah_piutang` int(11) DEFAULT NULL,
+  `tanggal_bayar` date DEFAULT NULL,
   `jumlah_bayar` int(11) DEFAULT NULL,
   `saldo_piutang` int(11) DEFAULT NULL,
-  `keterangan` varchar(100) DEFAULT NULL,
+  `keterangan` enum('LUNAS','BELUM LUNAS') DEFAULT NULL,
   PRIMARY KEY (`id_piutang`),
   KEY `id_peminjaman` (`id_peminjaman`),
   CONSTRAINT `piutang_ibfk_1` FOREIGN KEY (`id_peminjaman`) REFERENCES `peminjaman` (`id_peminjaman`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,34 +173,8 @@ CREATE TABLE `piutang` (
 
 LOCK TABLES `piutang` WRITE;
 /*!40000 ALTER TABLE `piutang` DISABLE KEYS */;
+INSERT INTO `piutang` VALUES (1,1,'2012-07-03',1000000,4000000,'BELUM LUNAS'),(2,1,'2012-07-04',1000000,3000000,'BELUM LUNAS'),(3,1,'2012-07-05',1000000,2000000,'BELUM LUNAS'),(4,2,'2012-07-13',1500000,6000000,'BELUM LUNAS'),(5,2,'2012-07-14',2000000,4000000,'BELUM LUNAS'),(6,2,'2012-07-14',4000000,0,'LUNAS');
 /*!40000 ALTER TABLE `piutang` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tunggakan`
---
-
-DROP TABLE IF EXISTS `tunggakan`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tunggakan` (
-  `id_tunggakan` int(11) NOT NULL AUTO_INCREMENT,
-  `id_peminjaman` int(11) DEFAULT NULL,
-  `tanggal_tempo` date DEFAULT NULL,
-  `total_tunggakan` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_tunggakan`),
-  KEY `id_peminjaman` (`id_peminjaman`),
-  CONSTRAINT `tunggakan_ibfk_1` FOREIGN KEY (`id_peminjaman`) REFERENCES `peminjaman` (`id_peminjaman`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tunggakan`
---
-
-LOCK TABLES `tunggakan` WRITE;
-/*!40000 ALTER TABLE `tunggakan` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tunggakan` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -190,4 +186,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-22 12:15:37
+-- Dump completed on 2019-07-27 10:22:41

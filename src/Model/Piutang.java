@@ -6,7 +6,6 @@ public class Piutang extends Model{
     private int idPiutang;
     private int idPeminjaman;
     private String tanggalBayar;
-    private int jumlahPiutang;
     private int jumlahBayar;
     private int saldoPiutang;
     private String keterangan;
@@ -15,11 +14,10 @@ public class Piutang extends Model{
         super("Piutang");
     }
 
-    public Piutang(int idPiutang, int idPeminjaman, String tanggalBayar, int jumlahPiutang, int jumlahBayar, int saldoPiutang, String keterangan) {
+    public Piutang(int idPiutang, int idPeminjaman, String tanggalBayar, int jumlahBayar, int saldoPiutang, String keterangan) {
         this.idPiutang = idPiutang;
         this.idPeminjaman = idPeminjaman;
         this.tanggalBayar = tanggalBayar;
-        this.jumlahPiutang = jumlahPiutang;
         this.jumlahBayar = jumlahBayar;
         this.saldoPiutang = saldoPiutang;
         this.keterangan = keterangan;
@@ -47,14 +45,6 @@ public class Piutang extends Model{
 
     public void setTanggalBayar(String tanggalBayar) {
         this.tanggalBayar = tanggalBayar;
-    }
-
-    public int getJumlahPiutang() {
-        return jumlahPiutang;
-    }
-
-    public void setJumlahPiutang(int jumlahPiutang) {
-        this.jumlahPiutang = jumlahPiutang;
     }
 
     public int getJumlahBayar() {
