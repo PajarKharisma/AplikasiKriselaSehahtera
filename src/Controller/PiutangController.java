@@ -97,7 +97,10 @@ public class PiutangController extends Controller {
 
     @Override
     public DefaultTableModel viewAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return dao.viewAll();
     }
 
+    public DefaultTableModel viewAllByName(String name){
+        return dao.viewAllByName(name);
+    }
 }

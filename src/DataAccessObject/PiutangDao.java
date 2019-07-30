@@ -72,7 +72,6 @@ public class PiutangDao extends DataAccessObject {
         String keterangan = "";
         
         String query = "SELECT "
-                + "piu.saldo_piutang, "
                 + "piu.keterangan "
                 + "FROM "
                 + "piutang piu "
@@ -100,8 +99,7 @@ public class PiutangDao extends DataAccessObject {
     public int getSaldoTerakhir(int id) {
         int saldoTerakhir = 0;
         String query = "SELECT "
-                + "piu.saldo_piutang, "
-                + "piu.keterangan "
+                + "piu.saldo_piutang "
                 + "FROM "
                 + "piutang piu "
                 + "INNER JOIN peminjaman p ON p.id_peminjaman = piu.id_peminjaman "
@@ -170,11 +168,87 @@ public class PiutangDao extends DataAccessObject {
 
     @Override
     protected DefaultTableModel viewByParam(String query) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DefaultTableModel mdl = new DefaultTableModel();
+        mdl.addColumn("No");
+        mdl.addColumn("id piutang");
+        mdl.addColumn("id customer");
+        mdl.addColumn("nama perusahaan");
+        mdl.addColumn("id barang");
+        mdl.addColumn("nama barang");
+        mdl.addColumn("nama barangharga");
+        mdl.addColumn("tanggal bayar");
+        mdl.addColumn("jumlah bayar");
+        mdl.addColumn("saldo piutang");
+        mdl.addColumn("keterangan");
+        int no = 1;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                mdl.addRow(new Object[]{
+                    (Object) no,
+                    rs.getInt("id_piutang"),
+                    rs.getInt("id_peminjaman"),
+                    rs.getInt("id_customer"),
+                    rs.getString("nama_perusahaan"),
+                    rs.getInt("id_barang"),
+                    rs.getString("nama_barang"),
+                    rs.getInt("harga"),
+                    rs.getString("tanggal_bayar"),
+                    rs.getString("jumlah_bayar"),
+                    rs.getString("saldo_piutang"),
+                    rs.getString("keterangan")
+                });
+                no++;
+            }
+        } catch (SQLException e) {
+            System.out.println("#ERROR " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "#Error " + e.getMessage());
+        }
+        return mdl;
     }
 
     @Override
     public DefaultTableModel viewAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query = "SELECT "
+                + "piu.id_piutang, "
+                + "p.id_peminjaman, "
+                + "c.id_customer, "
+                + "c.nama_perusahaan, "
+                + "j.id_barang, "
+                + "j.nama_barang, "
+                + "p.harga, "
+                + "piu.tanggal_bayar, "
+                + "piu.jumlah_bayar, "
+                + "piu.saldo_piutang, "
+                + "piu.keterangan "
+                + "FROM "
+                + "piutang piu "
+                + "INNER JOIN peminjaman p ON p.id_peminjaman = piu.id_peminjaman "
+                + "INNER JOIN customer c ON c.id_customer = p.id_customer "
+                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang ";
+        return viewByParam(query);
+    }
+    
+    public DefaultTableModel viewAllByName(String name){
+        String query = "SELECT "
+                + "piu.id_piutang, "
+                + "p.id_peminjaman, "
+                + "c.id_customer, "
+                + "c.nama_perusahaan, "
+                + "j.id_barang, "
+                + "j.nama_barang, "
+                + "p.harga, "
+                + "piu.tanggal_bayar, "
+                + "piu.jumlah_bayar, "
+                + "piu.saldo_piutang, "
+                + "piu.keterangan "
+                + "FROM "
+                + "piutang piu "
+                + "INNER JOIN peminjaman p ON p.id_peminjaman = piu.id_peminjaman "
+                + "INNER JOIN customer c ON c.id_customer = p.id_customer "
+                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang "
+                + "WHERE c.nama_perusahaan LIKE '%"+ name +"%';";
+        return viewByParam(query);
     }
 }
