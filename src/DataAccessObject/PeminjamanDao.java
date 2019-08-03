@@ -162,21 +162,21 @@ public class PeminjamanDao extends DataAccessObject {
     
     @Override
     public DefaultTableModel viewAll() {
-        String query = "SELECT"
+        String query = "SELECT "
                 + "p.id_peminjaman,"
                 + "c.id_customer,"
-                + "c.nama_perusahaan"
+                + "c.nama_perusahaan,"
                 + "j.id_barang,"
                 + "j.nama_barang,"
                 + "p.berat,"
                 + "p.tanggal_pinjam,"
                 + "p.tanggal_kembali,"
                 + "p.lokasi,"
-                + "p.harga"
-                + "FROM"
-                + "peminjaman p"
-                + "INNER JOIN customer c ON c.id_customer = p.id_customer"
-                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang";
+                + "p.harga "
+                + "FROM "
+                + "peminjaman p "
+                + "INNER JOIN customer c ON c.id_customer = p.id_customer "
+                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang ";
         return viewByParam(query);
     } 
 

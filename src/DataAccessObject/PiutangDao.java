@@ -97,7 +97,7 @@ public class PiutangDao extends DataAccessObject {
     }
     
     public int getSaldoTerakhir(int id) {
-        int saldoTerakhir = 0;
+        int saldoTerakhir = 0;  
         String query = "SELECT "
                 + "piu.saldo_piutang "
                 + "FROM "
@@ -170,16 +170,17 @@ public class PiutangDao extends DataAccessObject {
     protected DefaultTableModel viewByParam(String query) {
         DefaultTableModel mdl = new DefaultTableModel();
         mdl.addColumn("No");
-        mdl.addColumn("id piutang");
-        mdl.addColumn("id customer");
-        mdl.addColumn("nama perusahaan");
-        mdl.addColumn("id barang");
-        mdl.addColumn("nama barang");
-        mdl.addColumn("nama barangharga");
-        mdl.addColumn("tanggal bayar");
-        mdl.addColumn("jumlah bayar");
-        mdl.addColumn("saldo piutang");
-        mdl.addColumn("keterangan");
+        mdl.addColumn("ID Piutang");
+        mdl.addColumn("ID Peminjaman");
+        mdl.addColumn("ID Customer");
+        mdl.addColumn("Nama Perusahaan");
+        mdl.addColumn("ID Barang");
+        mdl.addColumn("Nama Barang");
+        mdl.addColumn("Harga");
+        mdl.addColumn("Tanggal Bayar");
+        mdl.addColumn("Jumlah Bayar");
+        mdl.addColumn("Saldo Piutang");
+        mdl.addColumn("Keterangan");
         int no = 1;
         try {
             st = con.createStatement();

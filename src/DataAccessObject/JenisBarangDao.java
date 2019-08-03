@@ -118,7 +118,7 @@ public class JenisBarangDao extends DataAccessObject {
             while (rs.next()) {
                 mdl.addRow(new Object[]{
                     (Object) no,
-                    rs.getInt("id_customer"),
+                    rs.getInt("id_barang"),
                     rs.getString("nama_barang"),
                     rs.getString("jenis_barang")
                 });
