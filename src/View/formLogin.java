@@ -5,7 +5,18 @@
  */
 package View;
 
+import Config.KoneksiDb;
+import Controller.PenggunaController;
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -16,12 +27,15 @@ public class formLogin extends javax.swing.JFrame {
     /**
      * Creates new form formLogin
      */
-    public formLogin() {
+    private final PenggunaController pec;
+    String username,password;
+    public formLogin() throws SQLException, IOException, FileNotFoundException, ParseException {
         initComponents();
-        btLogin.setBackground(Color.yellow);
-        btLogin.setOpaque(true);
+        pec = new PenggunaController();
+        this.setLocationRelativeTo(null);
+        
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,6 +85,11 @@ public class formLogin extends javax.swing.JFrame {
         btLogin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btLogin.setText("Login");
         btLogin.setBorder(null);
+        btLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLoginActionPerformed(evt);
+            }
+        });
 
         tfPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,6 +175,41 @@ public class formLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfPasswordActionPerformed
 
+    private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
+        String userdb = tfUsername.getText();
+        String passdb = tfPassword.getText();
+      
+        try {
+            java.sql.Connection conn = new KoneksiDb().getConnect();
+            Statement s = conn.createStatement();
+            String sql = "SELECT * FROM pengguna where username='"+userdb + "' and password='"+ passdb+"'";
+            ResultSet r = s.executeQuery(sql);
+            
+            int pilih = 0;
+            while (r.next()) {
+                pilih = r.getRow();
+            }
+            if (pilih ==1) {
+                JOptionPane.showMessageDialog(null,"Berhasil Login");
+                dispose();
+                formMenuutama fm = new formMenuutama();
+                fm.setVisible(true);
+            }else {
+                JOptionPane.showMessageDialog(null,"Gagal Login");
+            }
+            
+            
+        } catch (SQLException e) {
+            
+        } catch (IOException ex) {
+            Logger.getLogger(formLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(formLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_btLoginActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -187,7 +241,15 @@ public class formLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new formLogin().setVisible(true);
+                try {
+                    new formLogin().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(formLogin.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(formLogin.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(formLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

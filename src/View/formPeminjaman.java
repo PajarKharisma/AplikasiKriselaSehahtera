@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 package View;
-
+import Config.KoneksiDb;
 import Controller.PeminjamanController;
+import Controller.PiutangController;
+import java.awt.HeadlessException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -26,11 +29,15 @@ public class formPeminjaman extends javax.swing.JFrame {
      * Creates new form formPeminjaman
      */
     private final PeminjamanController pc;
+    private final PiutangController pic;
     public formPeminjaman() throws SQLException, IOException, FileNotFoundException, ParseException {
         initComponents();
         pc = new PeminjamanController();
+        pic = new PiutangController();
         viewtabel();
         resetall();
+        btpiutang.setEnabled(false);
+        this.setLocationRelativeTo(null);
         
     }
      private void viewtabel(){
@@ -42,6 +49,7 @@ public class formPeminjaman extends javax.swing.JFrame {
         
     }
      private void getcellklik() throws java.text.ParseException{
+        btpiutang.setEnabled(true);
         int pilih = tablecuso.getSelectedRow();
         tfkodepeminjaman.setText(tablecuso.getModel().getValueAt(pilih, 1).toString());
         tfidcustomer.setText(tablecuso.getModel().getValueAt(pilih, 2).toString());
@@ -117,8 +125,15 @@ public class formPeminjaman extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        btpiutang = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jButton4.setText("BARU");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -147,7 +162,7 @@ public class formPeminjaman extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addGap(0, 399, Short.MAX_VALUE))
+                        .addGap(0, 398, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel7)
@@ -208,19 +223,24 @@ public class formPeminjaman extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 0));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setText("Form Input Data Customer");
+        jLabel4.setText("Form Input Data Peminjaman");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setText("X");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(258, 258, 258)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(274, 274, 274)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -280,6 +300,13 @@ public class formPeminjaman extends javax.swing.JFrame {
             }
         });
 
+        btpiutang.setText("Input Piutang");
+        btpiutang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btpiutangActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -316,7 +343,7 @@ public class formPeminjaman extends javax.swing.JFrame {
                                 .addComponent(tfkodebrg, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tfnamacus, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -341,10 +368,14 @@ public class formPeminjaman extends javax.swing.JFrame {
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4)
-                        .addGap(5, 5, 5)))
+                        .addGap(5, 6, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btpiutang)
+                        .addGap(92, 92, 92)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -406,7 +437,9 @@ public class formPeminjaman extends javax.swing.JFrame {
                             .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btpiutang, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4))))
         );
 
         pack();
@@ -465,8 +498,10 @@ public class formPeminjaman extends javax.swing.JFrame {
         String lokasi = tflokasi.getText();
         int harga = Integer.parseInt(tfharga.getText());
         pc.create(idcus, idbrg, berat,sdatepinjam,sdatekembali,lokasi,harga);
+        
         viewtabel();
-        resetall();           
+        resetall();     
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
     caribarang cb;
@@ -492,6 +527,41 @@ public class formPeminjaman extends javax.swing.JFrame {
             Logger.getLogger(caricustomer.class.getName()).log(Level.SEVERE, null, ex);
         } // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void btpiutangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btpiutangActionPerformed
+        int idpem = Integer.parseInt(tfkodepeminjaman.getText()); 
+        Date datepinjam = (Date) datepipnjam.getDate();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String sdatepinjam = dateFormat.format(datepinjam);
+        int harga = Integer.parseInt(tfharga.getText());
+     
+        try {
+            java.sql.Connection conn = new KoneksiDb().getConnect();
+            String sql = "insert into piutang(id_peminjaman, tanggal_bayar, jumlah_bayar, saldo_piutang, keterangan) values("
+                    +idpem+",'"+sdatepinjam+"',"+0+","+harga+",'BELUM LUNAS')";
+            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Tambah Piutang Berhasil");
+          
+        } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, e);
+        } catch (IOException ex) {
+            Logger.getLogger(formPeminjaman.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(formPeminjaman.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_btpiutangActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        formMenuutama fm = new formMenuutama();
+        fm.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -537,6 +607,7 @@ public class formPeminjaman extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btpiutang;
     private org.jdesktop.swingx.JXDatePicker datekembali;
     private org.jdesktop.swingx.JXDatePicker datepipnjam;
     private javax.swing.JButton jButton1;

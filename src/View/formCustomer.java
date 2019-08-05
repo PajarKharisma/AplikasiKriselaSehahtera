@@ -27,6 +27,7 @@ public class formCustomer extends javax.swing.JFrame {
         initComponents();
         cc = new CustomerController();
         viewtabel();
+        this.setLocationRelativeTo(null);
     }
     private void viewtabel(){
         tablecustomer.setModel(cc.viewAll());
@@ -80,7 +81,13 @@ public class formCustomer extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         tfcariid = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 0));
 
@@ -89,6 +96,11 @@ public class formCustomer extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setText("X");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -334,6 +346,15 @@ public class formCustomer extends javax.swing.JFrame {
         
          tablecustomer.setModel(cc.viewByName(nama));
     }//GEN-LAST:event_tfcariidInputMethodTextChanged
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        formMenuutama fm = new formMenuutama();
+        fm.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

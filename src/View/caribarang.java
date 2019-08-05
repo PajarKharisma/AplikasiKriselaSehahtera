@@ -29,6 +29,7 @@ public class caribarang extends javax.swing.JFrame {
         jb = new JenisBarangController();
         this.fp = fp;
         viewtabel();
+        this.setLocationRelativeTo(null);
     }
     
     

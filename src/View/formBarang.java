@@ -27,6 +27,7 @@ public class formBarang extends javax.swing.JFrame {
         initComponents();
         jbc = new JenisBarangController();
         viewtabel();
+        this.setLocationRelativeTo(null);
     }
      private void viewtabel(){
         tablebarang.setModel(jbc.viewAll());
@@ -78,6 +79,12 @@ public class formBarang extends javax.swing.JFrame {
         tfcarikode = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jButton4.setText("Kembali");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -123,6 +130,11 @@ public class formBarang extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setText("X");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -297,6 +309,15 @@ public class formBarang extends javax.swing.JFrame {
     private void tablebarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablebarangMouseClicked
         getcellklik();        // TODO add your handling code here:
     }//GEN-LAST:event_tablebarangMouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        formMenuutama fm = new formMenuutama();
+        fm.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

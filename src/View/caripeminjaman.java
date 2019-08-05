@@ -31,6 +31,7 @@ public class caripeminjaman extends javax.swing.JFrame {
         pc = new PeminjamanController();
         this.fp = fp;
         viewtabel();
+        this.setLocationRelativeTo(null);
     }
     
     
