@@ -25,7 +25,7 @@ public class PeminjamanController extends Controller {
     @Override
     public void create(Object... obj) {
         int idCustomer = (int) obj[0];
-        int idBarang = (int) obj[1];
+        String idBarang = (String) obj[1];
         String berat = (String) obj[2];
         String tanggalPinjam = (String) obj[3];
         String tanggalKembali = (String) obj[4];
@@ -50,7 +50,7 @@ public class PeminjamanController extends Controller {
     public void update(Object... obj) {
         int idPeminjaman = (int) obj[0];
         int idCustomer = (int) obj[1];
-        int idBarang = (int) obj[2];
+        String idBarang = (String) obj[2];
         String berat = (String) obj[3];
         String tanggalPinjam = (String) obj[4];
         String tanggalKembali = (String) obj[5];

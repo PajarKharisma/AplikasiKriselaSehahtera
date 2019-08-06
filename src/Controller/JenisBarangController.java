@@ -21,12 +21,14 @@ public class JenisBarangController extends Controller {
 
     @Override
     public void create(Object... obj) {
-        String namaBarang = (String) obj[0];
-        String jenisBarang = (String) obj[1];
+        String idBarang = (String) obj[0];
+        String namaBarang = (String) obj[1];
+        String jenisBarang = (String) obj[2];
 
         Model m = new JenisBarang();
         JenisBarang model = (JenisBarang) m;
 
+        model.setIdBarang(idBarang);
         model.setNamaBarang(namaBarang);
         model.setJenisBarang(jenisBarang);
         dao.create(model);
@@ -34,7 +36,7 @@ public class JenisBarangController extends Controller {
 
     @Override
     public void update(Object... obj) {
-        int idBarang = (int) obj[0];
+        String idBarang = (String) obj[0];
         String namaBarang = (String) obj[1];
         String jenisBarang = (String) obj[2];
 

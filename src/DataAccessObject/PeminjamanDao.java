@@ -24,7 +24,7 @@ public class PeminjamanDao extends DataAccessObject {
             String sql = "INSERT INTO peminjaman(id_customer, id_barang, berat, tanggal_pinjam, tanggal_kembali, lokasi, harga) VALUES(?,?,?,?,?,?,?)";
             ps = con.prepareStatement(sql);
             ps.setInt(1, model.getIdCustomer());
-            ps.setInt(2, model.getIdBarang());
+            ps.setString(2, model.getIdBarang());
             ps.setString(3, model.getBerat());
             ps.setString(4, model.getTanggalPinjam());
             ps.setString(5, model.getTanggalKembali());
@@ -87,7 +87,7 @@ public class PeminjamanDao extends DataAccessObject {
                 Peminjaman model = new Peminjaman();
                 model.setIdPeminjaman(rs.getInt("id_peminjaman"));
                 model.setIdCustomer(rs.getInt("id_customer"));
-                model.setIdBarang(rs.getInt("id_barang"));
+                model.setIdBarang(rs.getString("id_barang"));
                 model.setBerat(rs.getString("berat"));
                 model.setTanggalPinjam(rs.getString("tanggal_pinjam"));
                 model.setTanggalKembali(rs.getString("tanggal_kembali"));

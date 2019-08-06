@@ -21,10 +21,11 @@ public class JenisBarangDao extends DataAccessObject {
     public void create(Model m) {
         JenisBarang model = (JenisBarang) m;
         try {
-            String sql = "INSERT INTO jenis_barang(nama_barang, jenis_barang) VALUES(?,?)";
+            String sql = "INSERT INTO jenis_barang(id_barang, nama_barang, jenis_barang) VALUES(?, ?,?)";
             ps = con.prepareStatement(sql);
-            ps.setString(1, model.getNamaBarang());
-            ps.setString(2, model.getJenisBarang());
+            ps.setString(1, model.getIdBarang());
+            ps.setString(2, model.getNamaBarang());
+            ps.setString(3, model.getJenisBarang());
             ps.execute();
             JOptionPane.showMessageDialog(null, "Data disimpan");
         } catch (SQLException e) {
@@ -75,7 +76,7 @@ public class JenisBarangDao extends DataAccessObject {
             rs = st.executeQuery(query);
             while (rs.next()) {
                 JenisBarang model = new JenisBarang();
-                model.setIdBarang(rs.getInt("id_barang"));
+                model.setIdBarang(rs.getString("id_barang"));
                 model.setNamaBarang(rs.getString("nama_barang"));
                 model.setJenisBarang(rs.getString("jenis_barang"));
                 list.add(model);

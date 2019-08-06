@@ -3,24 +3,24 @@ package Model;
 import Modules.Model;
 
 public class JenisBarang extends Model{
-    private int idBarang;
+    private String idBarang;
     private String namaBarang;
     private String jenisBarang;
 
     public JenisBarang() {
     }
 
-    public JenisBarang(int idBarang, String namaBarang, String jenisBarang) {
+    public JenisBarang(String idBarang, String namaBarang, String jenisBarang) {
         this.idBarang = idBarang;
         this.namaBarang = namaBarang;
         this.jenisBarang = jenisBarang;
     }
 
-    public int getIdBarang() {
+    public String getIdBarang() {
         return idBarang;
     }
 
-    public void setIdBarang(int idBarang) {
+    public void setIdBarang(String idBarang) {
         this.idBarang = idBarang;
     }
 

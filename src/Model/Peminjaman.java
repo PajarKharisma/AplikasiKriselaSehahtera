@@ -5,7 +5,7 @@ import Modules.Model;
 public class Peminjaman extends Model{
     private int idPeminjaman;
     private int idCustomer;
-    private int idBarang;
+    private String idBarang;
     private String berat;
     private String tanggalPinjam;
     private String tanggalKembali;
@@ -16,7 +16,7 @@ public class Peminjaman extends Model{
         super("Peminjaman");
     }
 
-    public Peminjaman(int idPeminjaman, int idCustomer, int idBarang, String berat, String tanggalPinjam, String tanggalKembali, String lokasi, int harga) {
+    public Peminjaman(int idPeminjaman, int idCustomer, String idBarang, String berat, String tanggalPinjam, String tanggalKembali, String lokasi, int harga) {
         this.idPeminjaman = idPeminjaman;
         this.idCustomer = idCustomer;
         this.idBarang = idBarang;
@@ -43,11 +43,11 @@ public class Peminjaman extends Model{
         this.idCustomer = idCustomer;
     }
 
-    public int getIdBarang() {
+    public String getIdBarang() {
         return idBarang;
     }
 
-    public void setIdBarang(int idBarang) {
+    public void setIdBarang(String idBarang) {
         this.idBarang = idBarang;
     }
 
