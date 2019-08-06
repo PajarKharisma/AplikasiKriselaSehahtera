@@ -111,8 +111,8 @@ public class caricustomer extends javax.swing.JFrame {
 
     private void tablebrgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablebrgMouseClicked
          int pilih = tablebrg.getSelectedRow();
-        fp.tfkodebrg.setText(tablebrg.getModel().getValueAt(pilih, 1).toString());
-        fp.tfnamabrg.setText(tablebrg.getModel().getValueAt(pilih, 2).toString());
+        fp.tfidcustomer.setText(tablebrg.getModel().getValueAt(pilih, 1).toString());
+        fp.tfnamacus.setText(tablebrg.getModel().getValueAt(pilih, 2).toString());
         fp.setVisible(true);
         this.dispose();
 

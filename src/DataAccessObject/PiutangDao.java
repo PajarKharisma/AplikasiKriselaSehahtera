@@ -227,7 +227,8 @@ public class PiutangDao extends DataAccessObject {
                 + "piutang piu "
                 + "INNER JOIN peminjaman p ON p.id_peminjaman = piu.id_peminjaman "
                 + "INNER JOIN customer c ON c.id_customer = p.id_customer "
-                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang ";
+                + "INNER JOIN jenis_barang j ON j.id_barang = p.id_barang "
+                + "WHERE jumlah_bayar != 0 ";
         return viewByParam(query);
     }
     

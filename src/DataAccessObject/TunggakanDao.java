@@ -63,13 +63,13 @@ public class TunggakanDao extends DataAccessObject {
         mdl.addColumn("Id Piutang");
         mdl.addColumn("Id Peminjaman");
         mdl.addColumn("Id Customer");
-        mdl.addColumn("nama perusahaan");
-        mdl.addColumn("id barang");
-        mdl.addColumn("nama barang");
-        mdl.addColumn("harga");
-        mdl.addColumn("tanggal kembali");
-        mdl.addColumn("saldo piutang");
-        mdl.addColumn("keterangan");
+        mdl.addColumn("Nama Perusahaan");
+        mdl.addColumn("Id Barang");
+        mdl.addColumn("Nama Barang");
+        mdl.addColumn("Harga");
+        mdl.addColumn("Tanggal Kembali");
+        mdl.addColumn("Saldo Piutang");
+        mdl.addColumn("Keterangan");
         int no = 1;
         try {
             st = con.createStatement();

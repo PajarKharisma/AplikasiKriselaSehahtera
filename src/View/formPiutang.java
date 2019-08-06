@@ -31,6 +31,9 @@ public class formPiutang extends javax.swing.JFrame {
         pic = new PiutangController();
         viewtabel();
          this.setLocationRelativeTo(null);
+         Date date = new Date();
+        datebayar.setDate(date);
+        resetall();
         
     }
     private void viewtabel(){
@@ -43,6 +46,10 @@ public class formPiutang extends javax.swing.JFrame {
         
     }
      private void getcellklik() throws java.text.ParseException{
+        btsimpan.setEnabled(false);
+        btbaru.setEnabled(true);
+        btedit.setEnabled(true);
+        bthapus.setEnabled(true);
         int pilih = tablepuiutang.getSelectedRow();
         tfidpiutang.setText(tablepuiutang.getModel().getValueAt(pilih, 1).toString());
         tfkodepeminjamam.setText(tablepuiutang.getModel().getValueAt(pilih, 2).toString());
@@ -62,6 +69,10 @@ public class formPiutang extends javax.swing.JFrame {
          tfketerangan.setText("");
          tfkodepeminjamam.setText("");
          tfnamacus.setText(""); 
+         btsimpan.setEnabled(true);
+         btbaru.setEnabled(false);
+         btedit.setEnabled(false);
+         bthapus.setEnabled(false);
       //   tfsaldo.setText("");
              
      }
@@ -76,14 +87,14 @@ public class formPiutang extends javax.swing.JFrame {
 
         jLabel11 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btsimpan = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         tfnamacus = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btedit = new javax.swing.JButton();
+        bthapus = new javax.swing.JButton();
+        btbaru = new javax.swing.JButton();
         tfkodepeminjamam = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -115,10 +126,10 @@ public class formPiutang extends javax.swing.JFrame {
 
         jLabel6.setText("Tanggal Bayar");
 
-        jButton1.setText("Simpan");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btsimpan.setText("Simpan");
+        btsimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btsimpanActionPerformed(evt);
             }
         });
 
@@ -159,24 +170,24 @@ public class formPiutang extends javax.swing.JFrame {
 
         tfnamacus.setEnabled(false);
 
-        jButton2.setText("Edt");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btedit.setText("Edit");
+        btedit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                bteditActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Hapus");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        bthapus.setText("Hapus");
+        bthapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                bthapusActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Kembali");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btbaru.setText("Baru");
+        btbaru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btbaruActionPerformed(evt);
             }
         });
 
@@ -208,7 +219,7 @@ public class formPiutang extends javax.swing.JFrame {
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tfcariid, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(419, Short.MAX_VALUE))
+                .addContainerGap(431, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,13 +278,13 @@ public class formPiutang extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btsimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btedit, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bthapus, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4))
+                        .addComponent(btbaru))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -301,7 +312,7 @@ public class formPiutang extends javax.swing.JFrame {
                                 .addGap(65, 65, 65)))))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 861, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -342,10 +353,10 @@ public class formPiutang extends javax.swing.JFrame {
                             .addComponent(jLabel14))
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(bthapus, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btbaru, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btedit, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btsimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 58, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -353,20 +364,20 @@ public class formPiutang extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void bteditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bteditActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_bteditActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void bthapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bthapusActionPerformed
         int idpiutang = Integer.parseInt(tfidpiutang.getText());
         pic.delete(idpiutang);
         viewtabel();
         resetall();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_bthapusActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btbaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btbaruActionPerformed
+        resetall();        // TODO add your handling code here:
+    }//GEN-LAST:event_btbaruActionPerformed
     caripeminjaman cp;
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         if(cp == null){
@@ -383,7 +394,7 @@ public class formPiutang extends javax.swing.JFrame {
         cp.setVisible(true);                    
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btsimpanActionPerformed
         Date tglbayar = (Date) datebayar.getDate();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String sdatebayar = dateFormat.format(tglbayar);
@@ -394,7 +405,7 @@ public class formPiutang extends javax.swing.JFrame {
         pic.create(idpeminjaman,sdatebayar,jumlahbayar);
         viewtabel();
         resetall();                           // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btsimpanActionPerformed
 
     private void tablepuiutangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablepuiutangMouseClicked
         try {
@@ -457,11 +468,11 @@ public class formPiutang extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btbaru;
+    private javax.swing.JButton btedit;
+    private javax.swing.JButton bthapus;
+    private javax.swing.JButton btsimpan;
     private org.jdesktop.swingx.JXDatePicker datebayar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

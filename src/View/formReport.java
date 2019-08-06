@@ -38,6 +38,12 @@ public class formReport extends javax.swing.JFrame {
     public formReport() {
         initComponents();
         this.setLocationRelativeTo(null);
+        Date date = new Date();
+        
+        jXDatePicker1.setDate(date);
+        jXDatePicker2.setDate(date);
+        //java.util.Date datepinjam = new SimpleDateFormat("yyyy-MM-dd").
+       // .setDate();
     }
 
 
@@ -92,7 +98,7 @@ public class formReport extends javax.swing.JFrame {
         jLabel1.setText("FORM CETAK");
 
         buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Laporan Peminjaman");
+        jRadioButton1.setText("Laporan Piutang");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -100,7 +106,7 @@ public class formReport extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Laporan Piutang");
+        jRadioButton2.setText("Laporan Piutang Tak Tertagih");
 
         jLabel3.setText("dari");
 
@@ -125,10 +131,13 @@ public class formReport extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButton1)
                             .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(52, 52, 52)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRadioButton2)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jRadioButton2))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(jLabel3)
@@ -140,7 +149,7 @@ public class formReport extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(127, 127, 127)
                         .addComponent(jLabel1)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,9 +222,9 @@ public class formReport extends javax.swing.JFrame {
         else if(jRadioButton2.isSelected()){
             try {
                 java.sql.Connection conn= new KoneksiDb().getConnect();
-                String filename = "D:\\PRO\\AplikasiKriselaSehahtera\\src\\View\\reportPiutang.jrxml";
+                String filename = "D:\\PRO\\AplikasiKriselaSehahtera\\src\\View\\reportPiutangTaktertagih.jrxml";
                 JasperReport jr = JasperCompileManager.compileReport(filename);
-                JasperPrint print = JasperFillManager.fillReport(jr,param,conn);
+                JasperPrint print = JasperFillManager.fillReport(jr,null,conn);
                 JasperViewer.viewReport(print,false);
             } 
             

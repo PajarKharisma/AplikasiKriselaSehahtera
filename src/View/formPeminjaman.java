@@ -14,9 +14,16 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -36,8 +43,12 @@ public class formPeminjaman extends javax.swing.JFrame {
         pic = new PiutangController();
         viewtabel();
         resetall();
-        btpiutang.setEnabled(false);
+       
         this.setLocationRelativeTo(null);
+        Date date = new Date();
+        datekembali.setDate(date);
+        datepipnjam.setDate(date);
+        
         
     }
      private void viewtabel(){
@@ -50,6 +61,11 @@ public class formPeminjaman extends javax.swing.JFrame {
     }
      private void getcellklik() throws java.text.ParseException{
         btpiutang.setEnabled(true);
+        btpiutang1.setEnabled(true);
+        btedit.setEnabled(true);
+        bthapus.setEnabled(true);
+        btbaru.setEnabled(true);
+        btsimpan.setEnabled(false);
         int pilih = tablecuso.getSelectedRow();
         tfkodepeminjaman.setText(tablecuso.getModel().getValueAt(pilih, 1).toString());
         tfidcustomer.setText(tablecuso.getModel().getValueAt(pilih, 2).toString());
@@ -76,7 +92,13 @@ public class formPeminjaman extends javax.swing.JFrame {
          tflokasi.setText("");
          tfnamabrg.setText(""); 
          tfnamacus.setText("");
-
+         btpiutang.setEnabled(false);
+         btpiutang1.setEnabled(false); 
+         btedit.setEnabled(false);
+         btsimpan.setEnabled(true);
+         btbaru.setEnabled(false);
+         bthapus.setEnabled(false);
+        
              
      }
     /**
@@ -88,7 +110,7 @@ public class formPeminjaman extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton4 = new javax.swing.JButton();
+        btbaru = new javax.swing.JButton();
         tfkodepeminjaman = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -103,13 +125,13 @@ public class formPeminjaman extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         tfnamacus = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btsimpan = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         tfidcustomer = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btedit = new javax.swing.JButton();
+        bthapus = new javax.swing.JButton();
         tfkodebrg = new javax.swing.JTextField();
         datepipnjam = new org.jdesktop.swingx.JXDatePicker();
         datekembali = new org.jdesktop.swingx.JXDatePicker();
@@ -126,6 +148,7 @@ public class formPeminjaman extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         btpiutang = new javax.swing.JButton();
+        btpiutang1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -135,10 +158,10 @@ public class formPeminjaman extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("BARU");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btbaru.setText("BARU");
+        btbaru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btbaruActionPerformed(evt);
             }
         });
 
@@ -213,10 +236,10 @@ public class formPeminjaman extends javax.swing.JFrame {
 
         jLabel6.setText("Tanggal Kembali");
 
-        jButton1.setText("Simpan");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btsimpan.setText("Simpan");
+        btsimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btsimpanActionPerformed(evt);
             }
         });
 
@@ -256,17 +279,17 @@ public class formPeminjaman extends javax.swing.JFrame {
 
         tfidcustomer.setEnabled(false);
 
-        jButton2.setText("Edt");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btedit.setText("Edit");
+        btedit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                bteditActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Hapus");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        bthapus.setText("Hapus");
+        bthapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                bthapusActionPerformed(evt);
             }
         });
 
@@ -307,6 +330,13 @@ public class formPeminjaman extends javax.swing.JFrame {
             }
         });
 
+        btpiutang1.setText("Cetak Surat Jalan");
+        btpiutang1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btpiutang1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -342,7 +372,7 @@ public class formPeminjaman extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(tfkodebrg, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton6)
+                                .addComponent(jButton5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,22 +387,25 @@ public class formPeminjaman extends javax.swing.JFrame {
                                             .addComponent(tfidcustomer, javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(tfkodepeminjaman, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton5)))
+                                        .addComponent(jButton6)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addGap(5, 6, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btpiutang)
-                        .addGap(92, 92, 92)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btsimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btedit, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bthapus, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btbaru))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(btpiutang)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btpiutang1)))
+                        .addGap(5, 6, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE))
@@ -397,7 +430,7 @@ public class formPeminjaman extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(tfidcustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton5))
+                            .addComponent(jButton6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfnamacus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -406,7 +439,7 @@ public class formPeminjaman extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfkodebrg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(jButton6))
+                            .addComponent(jButton5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfnamabrg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -433,23 +466,25 @@ public class formPeminjaman extends javax.swing.JFrame {
                             .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(bthapus, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btbaru, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btedit, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btsimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btpiutang, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btpiutang, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btpiutang1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btbaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btbaruActionPerformed
         resetall();        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btbaruActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void bteditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bteditActionPerformed
         int idpem = Integer.parseInt(tfkodepeminjaman.getText()); 
         Date datepinjam = (Date) datepipnjam.getDate();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -466,15 +501,15 @@ public class formPeminjaman extends javax.swing.JFrame {
         pc.update(idpem,idcus, idbrg, berat,sdatepinjam,sdatekembali,lokasi,harga);
         viewtabel();
         resetall();          // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_bteditActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void bthapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bthapusActionPerformed
         int idpem = Integer.parseInt(tfkodepeminjaman.getText());
         pc.delete(idpem);
         viewtabel();
         resetall();
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_bthapusActionPerformed
 
     private void tablecusoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablecusoMouseClicked
         try {
@@ -484,7 +519,7 @@ public class formPeminjaman extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tablecusoMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btsimpanActionPerformed
         Date datepinjam = (Date) datepipnjam.getDate();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String sdatepinjam = dateFormat.format(datepinjam);
@@ -503,7 +538,7 @@ public class formPeminjaman extends javax.swing.JFrame {
         resetall();     
         
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btsimpanActionPerformed
     caribarang cb;
     caricustomer cc;
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -563,6 +598,30 @@ public class formPeminjaman extends javax.swing.JFrame {
         fm.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosed
 
+    private void btpiutang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btpiutang1ActionPerformed
+        int id = Integer.parseInt(tfkodepeminjaman.getText());
+        HashMap param = new HashMap();
+        param.put("datedari",id);
+        try {
+                java.sql.Connection conn= new KoneksiDb().getConnect();
+                String filename = "D:\\PRO\\AplikasiKriselaSehahtera\\src\\View\\reportPerjalanan.jrxml";
+                JasperReport jr = JasperCompileManager.compileReport(filename);
+                JasperPrint print = JasperFillManager.fillReport(jr,param,conn);
+            
+                JasperViewer.viewReport(print,false);
+            } 
+            
+            catch (SQLException ex) {
+                Logger.getLogger(formReport.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(formReport.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(formReport.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (JRException ex) {
+                Logger.getLogger(formReport.class.getName()).log(Level.SEVERE, null, ex);
+            }        // TODO add your handling code here:
+    }//GEN-LAST:event_btpiutang1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -607,13 +666,14 @@ public class formPeminjaman extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btbaru;
+    private javax.swing.JButton btedit;
+    private javax.swing.JButton bthapus;
     private javax.swing.JButton btpiutang;
+    private javax.swing.JButton btpiutang1;
+    private javax.swing.JButton btsimpan;
     private org.jdesktop.swingx.JXDatePicker datekembali;
     private org.jdesktop.swingx.JXDatePicker datepipnjam;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;

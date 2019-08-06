@@ -54,7 +54,7 @@ public class caribarang extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablebrg = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tablebrg.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -96,8 +96,8 @@ public class caribarang extends javax.swing.JFrame {
 
     private void tablebrgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablebrgMouseClicked
          int pilih = tablebrg.getSelectedRow();
-        fp.tfidcustomer.setText(tablebrg.getModel().getValueAt(pilih, 1).toString());
-        fp.tfnamacus.setText(tablebrg.getModel().getValueAt(pilih, 2).toString());
+        fp.tfkodebrg.setText(tablebrg.getModel().getValueAt(pilih, 1).toString());
+        fp.tfnamabrg.setText(tablebrg.getModel().getValueAt(pilih, 2).toString());
         fp.setVisible(true);
         this.dispose();
 
